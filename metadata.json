@@ -1,0 +1,6 @@
+{
+  "name": "Sakhi - Aesthetic Women's Health, Safety & Empowerment",
+  "description": "Your ultimate girlie companion for period tracking, emergency SOS, Indian legal rights, welfare schemes, mindful therapy, fitness, and daily planning.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
