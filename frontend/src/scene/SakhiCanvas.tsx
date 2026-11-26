@@ -88,11 +88,11 @@ export function SakhiCanvas() {
   const scrollProgress = useShowcaseStore((s) => s.scrollProgress);
   const isReady = useShowcaseStore((s) => s.isReady);
 
-  const initDoneRef = useRef(false);
-
   useEffect(() => {
-    if (initDoneRef.current) return;
-    initDoneRef.current = true;
+    // Always ensure fresh WebGL readiness and reset scroll progress on mount
+    setWebglFailed(false);
+    useShowcaseStore.getState().setScrollState(0);
+    markReady();
 
     const soft = detectSoftwareGl();
     if (!soft) {
@@ -119,7 +119,7 @@ export function SakhiCanvas() {
     };
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
-  }, [setDpr, setQualityInfo, setTabVisible]);
+  }, [markReady, setDpr, setQualityInfo, setTabVisible, setWebglFailed]);
 
   if (webglFailed) {
     return (
@@ -162,8 +162,11 @@ export function SakhiCanvas() {
           gl.outputColorSpace = THREE.SRGBColorSpace;
           gl.domElement.addEventListener('webglcontextlost', (e) => {
             e.preventDefault();
-            setWebglFailed(true);
-            markReady();
+            console.warn('[Sakhi 3D] WebGL context lost temporarily, awaiting restore');
+          });
+          gl.domElement.addEventListener('webglcontextrestored', () => {
+            console.log('[Sakhi 3D] WebGL context restored');
+            setWebglFailed(false);
           });
         }}
       >
