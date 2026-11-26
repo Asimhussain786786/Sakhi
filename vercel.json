@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/dist",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/api/health",
+      "destination": "/api/health"
+    },
+    {
+      "source": "/api/therapist",
+      "destination": "/api/therapist"
+    },
+    {
+      "source": "/api/companion",
+      "destination": "/api/companion"
+    },
+    {
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth?path=:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
